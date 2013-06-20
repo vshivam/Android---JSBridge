@@ -1,0 +1,12 @@
+<input type="button" value="Fetch Android Version" onClick="change_div()" />
+
+<div id="foo">
+</div>
+
+<script type="text/javascript">
+	function change_div()
+	{
+		var el = document.getElementById('foo');
+		el.innerHTML = JsBridge.getDeviceVersion();
+	}
+</script>

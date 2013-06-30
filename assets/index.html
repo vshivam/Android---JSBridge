@@ -6,7 +6,9 @@
 <script type="text/javascript">
 	function change_div()
 	{
+		var url = "this_is_a_new_url";
 		var el = document.getElementById('foo');
 		el.innerHTML = JsBridge.getDeviceVersion();
+		JsBridge.sendNewPrivlyUrl(url);
 	}
 </script>

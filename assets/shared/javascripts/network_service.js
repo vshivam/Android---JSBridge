@@ -49,12 +49,15 @@ var privlyNetworkService = {
    */
   initPrivlyService: function(setCSRF, canPostCallback, loginCallback, errorCallback) {
     var csrfTokenAddress = privlyNetworkService.contentServerDomain() + 
-                           "/posts/user_account_data";
+                           "/posts/user_account_data?auth_token=vrTk8C6yi46v9kTXVBpq";
     if (setCSRF) {
+		  
       $.ajax({
         url: csrfTokenAddress,
+        cache : false,
         dataType: "json",
         success: function (json, textStatus, jqXHR) {
+        console.log(json.csrf);
           $.ajaxSetup({
             beforeSend: function(xhr) {
               xhr.setRequestHeader('X-CSRF-Token', json.csrf);
@@ -87,12 +90,15 @@ var privlyNetworkService = {
    * @return {string} The domain content is associated with.
    */
   contentServerDomain: function() {
-    
-    var protocolDomainPort = location.protocol + 
+  
+  	if (privlyNetworkService.platformName() === "ANDROID") {
+      var protocolDomainPort = "https://privlyalpha.org"
+      return protocolDomainPort;
+    } else {
+	  var protocolDomainPort = location.protocol + 
                              '//'+location.hostname + 
                              (location.port ? ':'+location.port: '');
-    
-    if (privlyNetworkService.platformName() === "HOSTED") {
+ 	} if (privlyNetworkService.platformName() === "HOSTED") {
       return protocolDomainPort;
     } else if (privlyNetworkService.platformName() === "CHROME") {
       return localStorage["posting_content_server_url"];

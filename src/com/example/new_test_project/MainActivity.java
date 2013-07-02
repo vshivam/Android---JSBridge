@@ -1,6 +1,8 @@
 package com.example.new_test_project;
 
 import android.app.Activity;
+import android.os.Build;
+import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -17,10 +19,11 @@ public class MainActivity extends Activity {
         WebView w = (WebView)findViewById(R.id.webview_1);
         w.getSettings().setJavaScriptEnabled(true); 
         w.addJavascriptInterface(new JsObject(), "androidJsBridge");
-        
+        if (Build.VERSION.SDK_INT >= VERSION_CODES.JELLY_BEAN) 
+        	  w.getSettings().setAllowUniversalAccessFromFileURLs(true);
         w.setWebChromeClient(new WebChromeClient() {
         	  public boolean onConsoleMessage(ConsoleMessage cm) {
-        	    Log.d("MyApplication", cm.message() + " -- From line "
+        	    Log.d("JsApplication", cm.message() + " -- From line "
         	                         + cm.lineNumber() + " of "
         	                         + cm.sourceId() );
         	    return true;
